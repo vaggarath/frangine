@@ -19,17 +19,20 @@ class Book extends Component {
         let {title, author, language, info, picture, dlLink} = this.props.item;
 
         return (
-          <Card style={{ width: '18rem' }} className="col-12 col-lg-6 col-xl-4">
-          <Card.Img variant="top" src={picture} />
+          <Card 
+            className="mb-2"
+          > 
+            {/*  className="col-12 col-lg-6 col-xl-4" */}
+          <Card.Img variant="top" src={picture} style={{ height: '500px' }} />
           <Card.Body>
             <Card.Title>
-              <strong className="text-center">{title}</strong><br />
+              <strong className="text-center" style={{ whiteSpace: 'pre-wrap' }}>{title}</strong><br />
               <i className="text-center">{author}</i><br />
               <i className="text-center">{language}</i><br />
             </Card.Title>
-            <Card.Text>
+            <Card.Text style={{ minHeight: '150px', maxHeight: '150px' }} >
             <TextTruncate
-                line={5}
+                line={2}
                 element="span"
                 truncateText="…"
                 text={info}

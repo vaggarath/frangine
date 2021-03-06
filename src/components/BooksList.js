@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { books } from "../data/books";
 import Book from './Book';
-
+import CardColumns from 'react-bootstrap/CardColumns'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import CardGroup from 'react-bootstrap/CardGroup'
 
 class BooksList extends Component {
 
@@ -16,19 +17,26 @@ class BooksList extends Component {
             {id:4, value:"classique"},
             {id:4, value:"drame"},
         ],
-        selectedRadio: "fantasy"
+        selectedRadio: "fantasy",
+        search:''
     }
 
     handleRadio = (event) =>{
         //console.log(event.target.value)
         let radio = event.target.value
-        this.setState({selectedRadio: radio})
+        this.setState({selectedRadio: radio, search:''})
+    }
+
+    handleChange =(e)=>{
+        this.setState({search:e.target.value})
     }
 
     render() {
         let {books, radios, selectedRadio} = this.state;
         return (
-            <div className="portfolioContent">
+            <div className="portfolioContent container">
+                
+                <input placeholder="chercher" className="input-group input-group-lg w-50 mx-auto mb-5 d-inline-flex" onChange={this.handleChange} value={this.state.search}/><label htmlFor="explications"><i>Chercher un auteur ou un titre</i></label>
                 <ul className="d-flex justify-content-around flex-lg-row flex-xl-row flex-column mx-auto text-center">
                     {
                         radios.map((radio=>{
@@ -48,21 +56,27 @@ class BooksList extends Component {
                             )
                         }))
                     }
-                </ul>
-                <div className="container">
-                    <div class="row">
+                </ul><div className="container">
+                {this.state.search}
+                {/* 
+                    <div class="row"> */}
+                    
+                    <CardColumns>
+                   
                     {
                         books
                         .filter(item => item.style.includes(selectedRadio))
+                        .filter(item=> item.author.toLowerCase().includes(this.state.search.toLowerCase()) || item.title.toLowerCase().includes(this.state.search.toLowerCase()))
+                        // .filter(item=> item.title.toLowerCase().includes(this.state.search.toLowerCase()))
                         .map(item=>{
                             return <Book 
                                 key={item.id}
                                 item={item}
                             />
                         })
-                    }
-                    </div>
-                </div>
+                    }</CardColumns></div>
+                    {/* 
+                </div> */}
             </div>
         );
     }
